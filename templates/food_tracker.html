@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Food Tracker - Calorie Calculator{% endblock %}
+
+{% block content %}
+<h1>Food Intake Tracker</h1>
+
+<div class="form-group" style="max-width: 300px;">
+    <label for="date-picker">Select Date:</label>
+    <input type="date" id="date-picker" value="{{ selected_date }}" onchange="changeDate()">
+</div>
+
+<div class="results">
+    <h3>Daily Summary for {{ selected_date }}:</h3>
+    <p><strong>Total Calories:</strong> {{ intake.total_calories }} calories</p>
+    <p><strong>Number of Entries:</strong> {{ intake.entry_count }}</p>
+    
+    {% if intake.entry_count > 0 %}
+    <div class="meal-breakdown">
+        <h4>Breakdown by Meal:</h4>
+        {% for meal, calories in intake.meal_breakdown.items() %}
+            {% if calories > 0 %}
+            <p><strong>{{ meal.title() }}:</strong> {{ calories }} calories</p>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+{% if intake.entry_count == 0 %}
+<div class="results">
+    <p>No food entries for this date. <a href="/add_food">Add your first meal!</a></p>
+</div>
+{% endif %}
+
+<div style="margin-top: 20px;">
+    <a href="/add_food"><button>Add Food Entry</button></a>
+    <a href="/" style="margin-left: 10px;"><button>Back to Home</button></a>
+</div>
+
+<script>
+function changeDate() {
+    const selectedDate = document.getElementById('date-picker').value;
+    window.location.href = `/food?date=${selectedDate}`;
+}
+</script>
+{% endblock %}

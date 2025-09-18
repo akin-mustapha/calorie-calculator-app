@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}Add Food - Calorie Calculator{% endblock %}
+
+{% block content %}
+<h1>Add Food Intake</h1>
+
+{% if error %}
+<div class="error">Error: {{ error }}</div>
+{% endif %}
+
+<div class="search-box">
+    <h3>Search Food Database:</h3>
+    <input type="text" id="food-search" placeholder="Search for food..." onkeyup="searchFood()">
+    <div id="search-results" class="food-results" style="display: none;"></div>
+</div>
+
+<form method="POST">
+    <div class="form-group">
+        <label for="food_name">Food Name:</label>
+        <input type="text" id="food_name" name="food_name" 
+               value="{% if selected_food %}{{ selected_food.name }}{% endif %}" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="calories_per_100g">Calories per 100g:</label>
+        <input type="number" id="calories_per_100g" name="calories_per_100g" 
+               value="{% if selected_food %}{{ selected_food.calories_per_100g }}{% endif %}"
+               min="1" max="1000" step="0.1" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="quantity">Quantity (grams):</label>
+        <input type="number" id="quantity" name="quantity" min="1" max="5000" step="0.1" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="meal_type">Meal Type:</label>
+        <select id="meal_type" name="meal_type" required>
+            <option value="">Select Meal Type</option>
+            <option value="breakfast">Breakfast</option>
+            <option value="lunch">Lunch</option>
+            <option value="dinner">Dinner</option>
+            <option value="snack">Snack</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="time">Time:</label>
+        <input type="time" id="time" name="time" required>
+    </div>
+    
+    <button type="submit">Add Food Entry</button>
+</form>
+
+<div style="margin-top: 20px;">
+    <a href="/food"><button>View Food Tracker</button></a>
+</div>
+
+<script>
+// Set default date and time to current
+document.addEventListener('DOMContentLoaded', function() {
+    const now = new Date();
+    const dateInput = document.getElementById('date');
+    const timeInput = document.getElementById('time');
+    
+    // Set default date (YYYY-MM-DD)
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    dateInput.value = `${year}-${month}-${day}`;
+    
+    // Set default time (HH:MM)
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    timeInput.value = `${hours}:${minutes}`;
+});
+
+let searchTimeout;
+
+function searchFood() {
+    const query = document.getElementById('food-search').value;
+    const resultsDiv = document.getElementById('search-results');
+    
+    clearTimeout(searchTimeout);
+    
+    if (query.length < 2) {
+        resultsDiv.style.display = 'none';
+        return;
+    }
+    
+    searchTimeout = setTimeout(() => {
+        fetch(`/search_food?q=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(foods => {
+                if (foods.length > 0) {
+                    resultsDiv.innerHTML = foods.map(food => 
+                        `<div class="food-item" onclick="selectFood('${food.name}', ${food.calories_per_100g})">
+                            ${food.name} - ${food.calories_per_100g} cal/100g (${food.category})
+                        </div>`
+                    ).join('');
+                    resultsDiv.style.display = 'block';
+                } else {
+                    resultsDiv.innerHTML = '<div class="food-item">No foods found</div>';
+                    resultsDiv.style.display = 'block';
+                }
+            });
+    }, 300);
+}
+
+function selectFood(name, calories) {
+    document.getElementById('food_name').value = name;
+    document.getElementById('calories_per_100g').value = calories;
+    document.getElementById('search-results').style.display = 'none';
+    document.getElementById('food-search').value = '';
+}
+</script>
+{% endblock %}

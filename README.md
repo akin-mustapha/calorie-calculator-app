@@ -1,6 +1,6 @@
 # Calorie Calculator
 
-A Python application that calculates daily calorie requirements based on user profile and activity level, with food intake tracking and database persistence. Available with both CLI and Web interfaces.
+A Python web application that calculates daily calorie requirements based on user profile and activity level, with food intake tracking and database persistence.
 
 ## Features
 
@@ -8,30 +8,23 @@ A Python application that calculates daily calorie requirements based on user pr
 - TDEE calculation with activity level multipliers
 - Weight loss/gain calorie recommendations
 - Food intake tracking with meal categorization
-- SQLite database for persistent storage
+- PostgreSQL database for persistent storage
 - Food database with 75+ common foods
 - Input validation and error handling
 - Modular design following SOLID principles
-- **Dual Interface**: CLI and Web UI
 
 ## Usage
 
 ### Web Interface
 ```bash
-python web_app.py
+python run.py
 # Visit http://localhost:5000
 ```
 
-### CLI Interface
+### Docker (Recommended)
 ```bash
-python main.py
-```
-
-### Unified Launcher
-```bash
-python start.py          # Choose interface interactively
-python start.py web      # Start web interface directly
-python start.py cli      # Start CLI interface directly
+docker-compose up --build
+# Visit http://localhost:8000
 ```
 
 ## Web Interface Features
@@ -46,9 +39,8 @@ python start.py cli      # Start CLI interface directly
 
 - **Models**: Data structures with validation (`User`, `Gender`, `ActivityLevel`, `FoodItem`, `FoodEntry`)
 - **Services**: Business logic with strategy pattern (`CalorieCalculatorService`, `FoodTrackingService`)
-- **Database**: Persistent storage with SQLite (`DatabaseManager`, `FoodDatabase`)
-- **CLI**: Command-line interface (`CalorieCalculatorCLI`)
-- **Web**: Flask web application with HTML templates
+- **Database**: Persistent storage with PostgreSQL (`DatabaseManager`, `FoodDatabase`)
+- **Views**: Flask Blueprint-based web routes
 
 ## Design Principles Applied
 
@@ -57,7 +49,7 @@ python start.py cli      # Start CLI interface directly
 - **Dependency Inversion**: Services depend on abstractions, not concrete implementations
 - **Strategy Pattern**: Pluggable BMR calculation algorithms
 - **Data Validation**: Input validation at model and interface levels
-- **Interface Segregation**: Separate CLI and Web interfaces using same services
+- **Application Factory**: Flask app factory pattern for better testing
 
 ## Documentation
 
@@ -69,22 +61,21 @@ python start.py cli      # Start CLI interface directly
 
 ```
 calorie-calculator/
-├── src/
+├── app/
 │   ├── models/          # Data models and validation
 │   ├── services/        # Business logic services
 │   ├── database/        # Data persistence layer
-│   └── cli/            # Command-line interface
+│   └── views/           # Web routes and controllers
 ├── templates/          # HTML templates for web interface
-├── docs/               # Documentation
-├── main.py            # CLI application entry point
-├── web_app.py         # Web application entry point
-├── start.py           # Unified launcher
-└── calorie_tracker.db # SQLite database (created on first run)
+├── config/             # Configuration management
+├── tests/              # Test suite
+├── run.py              # Application entry point
+└── docker-compose.yml  # Docker orchestration
 ```
 
 ## Dependencies
 
 - Python 3.7+
 - Flask (for web interface)
-- SQLite (built-in)
-# calorie-calculator-app
+- PostgreSQL (via Docker)
+- psycopg2-binary (PostgreSQL adapter)

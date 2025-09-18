@@ -1,0 +1,39 @@
+# Docker Compose configuration for Calorie Calculator
+# Runs PostgreSQL database and Flask web application together
+
+services:
+  # PostgreSQL database service
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: calorie_tracker      # Database name
+      POSTGRES_USER: postgres           # Database user
+      POSTGRES_PASSWORD: password       # Database password (change in production)
+    ports:
+      - "5432:5432"                    # Expose database port
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persist database data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]  # Check if database is ready
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Flask web application service
+  web:
+    build: .                           # Build from local Dockerfile
+    ports:
+      - "8000:8000"                    # Expose web application port
+    environment:
+      # Database connection string for the web app
+      DATABASE_URL: postgresql://postgres:password@postgres:5432/calorie_tracker
+      FLASK_ENV: production
+    depends_on:
+      postgres:
+        condition: service_healthy     # Wait for database to be ready
+    restart: on-failure               # Restart if container fails
+    command: gunicorn run:app -c gunicorn.conf.py
+
+# Named volume for database persistence
+volumes:
+  postgres_data:
