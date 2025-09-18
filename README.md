@@ -1,81 +1,116 @@
-# Calorie Calculator
+# Calorie Calculator - React + Flask
 
-A Python web application that calculates daily calorie requirements based on user profile and activity level, with food intake tracking and database persistence.
+A modern web application with React frontend and Flask API backend for calculating daily calorie requirements and tracking food intake.
 
-## Features
+## 🚀 Quick Start
 
-- BMR calculation using Mifflin-St Jeor equation
-- TDEE calculation with activity level multipliers
-- Weight loss/gain calorie recommendations
-- Food intake tracking with meal categorization
-- PostgreSQL database for persistent storage
-- Food database with 75+ common foods
-- Input validation and error handling
-- Modular design following SOLID principles
-
-## Usage
-
-### Web Interface
+### Production (Docker)
 ```bash
-python run.py
-# Visit http://localhost:5000
-```
-
-### Docker (Recommended)
-```bash
+./start-dev.sh
+# or
 docker-compose up --build
-# Visit http://localhost:8000
 ```
 
-## Web Interface Features
+**Access:**
+- **Frontend**: http://localhost:3000 (React App)
+- **API**: http://localhost:8000 (Flask API)
+- **Database**: localhost:5432 (PostgreSQL)
 
-- **Home Page**: Overview and quick actions
-- **Calculate Calories**: Interactive form for BMR/TDEE calculation
-- **Food Tracker**: View daily intake summary
-- **Add Food**: Search food database or add custom foods
-- **Real-time Search**: Live food database search with autocomplete
+### Development Mode
+```bash
+# Terminal 1 - Backend API
+python run.py
 
-## Architecture
-
-- **Models**: Data structures with validation (`User`, `Gender`, `ActivityLevel`, `FoodItem`, `FoodEntry`)
-- **Services**: Business logic with strategy pattern (`CalorieCalculatorService`, `FoodTrackingService`)
-- **Database**: Persistent storage with PostgreSQL (`DatabaseManager`, `FoodDatabase`)
-- **Views**: Flask Blueprint-based web routes
-
-## Design Principles Applied
-
-- **Single Responsibility**: Each class has one clear purpose
-- **Open/Closed**: BMR calculation can be extended with new algorithms
-- **Dependency Inversion**: Services depend on abstractions, not concrete implementations
-- **Strategy Pattern**: Pluggable BMR calculation algorithms
-- **Data Validation**: Input validation at model and interface levels
-- **Application Factory**: Flask app factory pattern for better testing
-
-## Documentation
-
-- [Requirements](docs/requirements.md) - Functional and non-functional requirements
-- [Design](docs/design.md) - System architecture and design patterns
-- [API Documentation](docs/README.md) - Quick reference guide
-
-## Project Structure
-
-```
-calorie-calculator/
-├── app/
-│   ├── models/          # Data models and validation
-│   ├── services/        # Business logic services
-│   ├── database/        # Data persistence layer
-│   └── views/           # Web routes and controllers
-├── templates/          # HTML templates for web interface
-├── config/             # Configuration management
-├── tests/              # Test suite
-├── run.py              # Application entry point
-└── docker-compose.yml  # Docker orchestration
+# Terminal 2 - Frontend React App  
+cd frontend && npm install && npm start
 ```
 
-## Dependencies
+## 🏗️ Architecture
 
-- Python 3.7+
-- Flask (for web interface)
-- PostgreSQL (via Docker)
-- psycopg2-binary (PostgreSQL adapter)
+### Frontend (React)
+- **Framework**: React 18 with hooks
+- **Routing**: React Router v6
+- **Styling**: CSS with design system variables
+- **API Client**: Axios for HTTP requests
+- **Port**: 3000
+
+### Backend (Flask API)
+- **Framework**: Flask with CORS
+- **Database**: PostgreSQL with psycopg2
+- **API**: RESTful endpoints under `/api`
+- **Port**: 8000
+
+### Database (PostgreSQL)
+- **Container**: postgres:15
+- **Port**: 5432
+- **Database**: calorie_tracker
+
+## 🎨 Features
+
+- **Modern Design**: Clean teal theme matching design template
+- **Responsive Layout**: Works on desktop and mobile
+- **Real-time Search**: Food database autocomplete
+- **Split-card UI**: Form and results side-by-side
+- **Date Tracking**: Calendar-based food logging
+- **API Integration**: Seamless frontend-backend communication
+
+## 📡 API Endpoints
+
+- `POST /api/calculate` - Calculate BMR/TDEE
+- `GET /api/food-entries?date=YYYY-MM-DD` - Get food entries
+- `POST /api/food-entries` - Add food entry
+- `GET /api/search-food?q=query` - Search food database
+
+## 🛠️ Development
+
+### Project Structure
+```
+├── frontend/           # React application
+│   ├── src/
+│   │   ├── components/ # Reusable UI components
+│   │   ├── pages/      # Route components
+│   │   ├── services/   # API client
+│   │   └── styles/     # CSS files
+│   └── public/         # Static assets
+├── app/               # Flask application
+│   ├── models/        # Data models
+│   ├── services/      # Business logic
+│   ├── database/      # Data access
+│   └── views/         # API routes
+├── config/            # Configuration
+└── templates/         # Flask templates (legacy)
+```
+
+### Key Technologies
+- **React 18** - Modern frontend framework
+- **Flask** - Python web framework
+- **PostgreSQL** - Relational database
+- **Docker** - Containerization
+- **Nginx** - Production web server
+
+## 🔧 Commands
+
+```bash
+# Start all services
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop services
+docker-compose down
+
+# Rebuild containers
+docker-compose up --build
+
+# Development mode
+./start-dev.sh
+```
+
+## 🎯 Next Steps
+
+- Add user authentication
+- Implement data visualization
+- Add meal planning features
+- Mobile app development
+- Advanced nutrition tracking

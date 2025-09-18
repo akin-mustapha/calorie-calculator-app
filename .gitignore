@@ -34,3 +34,31 @@ Thumbs.db
 
 # Docker volumes (managed by Docker)
 postgres_data/
+
+# Node.js and React
+node_modules/
+frontend/node_modules/
+frontend/build/
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# React build artifacts
+frontend/build/
+frontend/dist/
+
+# Package lock files (optional - uncomment if you want to ignore them)
+# frontend/package-lock.json
+# frontend/yarn.lock
+
+# Coverage reports
+coverage/
+*.lcov
+
+# Temporary files
+.tmp/
+temp/

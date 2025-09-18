@@ -1,5 +1,5 @@
 # Docker Compose configuration for Calorie Calculator
-# Runs PostgreSQL database and Flask web application together
+# Runs PostgreSQL database, Flask API, and React frontend
 
 services:
   # PostgreSQL database service
@@ -19,13 +19,13 @@ services:
       timeout: 5s
       retries: 5
 
-  # Flask web application service
-  web:
+  # Flask API backend service
+  api:
     build: .                           # Build from local Dockerfile
     ports:
-      - "8000:8000"                    # Expose web application port
+      - "8000:8000"                    # Expose API port
     environment:
-      # Database connection string for the web app
+      # Database connection string for the API
       DATABASE_URL: postgresql://postgres:password@postgres:5432/calorie_tracker
       FLASK_ENV: production
     depends_on:
@@ -33,6 +33,16 @@ services:
         condition: service_healthy     # Wait for database to be ready
     restart: on-failure               # Restart if container fails
     command: gunicorn run:app -c gunicorn.conf.py
+
+  # React frontend service
+  frontend:
+    build: ./frontend                  # Build from frontend Dockerfile
+    ports:
+      - "3000:3000"                    # Expose frontend port
+    environment:
+      REACT_APP_API_URL: http://localhost:8000/api  # API endpoint for frontend
+    depends_on:
+      - api                           # Wait for API to be ready
 
 # Named volume for database persistence
 volumes:

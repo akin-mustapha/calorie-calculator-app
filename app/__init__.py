@@ -7,6 +7,7 @@ This allows for better testing, configuration management, and deployment flexibi
 
 import os
 from flask import Flask
+from flask_cors import CORS
 from config.settings import Config
 
 
@@ -21,8 +22,14 @@ def create_app(config_class=Config):
                 static_folder=static_dir)
     app.config.from_object(config_class)
     
+    # Enable CORS for React frontend
+    CORS(app)
+    
     # Register blueprints
     from app.views.routes import main_bp
+    from app.views.api_routes import api_bp
+    
     app.register_blueprint(main_bp)
+    app.register_blueprint(api_bp)
     
     return app
