@@ -1,47 +1,63 @@
 {% extends "base.html" %}
 
-{% block title %}Food Tracker - Calorie Calculator{% endblock %}
-
 {% block content %}
-<h1>Food Intake Tracker</h1>
-
-<div class="form-group" style="max-width: 300px;">
-    <label for="date-picker">Select Date:</label>
-    <input type="date" id="date-picker" value="{{ selected_date }}" onchange="changeDate()">
-</div>
-
-<div class="results">
-    <h3>Daily Summary for {{ selected_date }}:</h3>
-    <p><strong>Total Calories:</strong> {{ intake.total_calories }} calories</p>
-    <p><strong>Number of Entries:</strong> {{ intake.entry_count }}</p>
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h2>Food Tracker</h2>
+        <div>
+            <input type="date" value="{{ selected_date }}" onchange="window.location.href='{{ url_for('main.food_tracker_page') }}?date=' + this.value"
+                   style="padding: 0.5rem; border: 2px solid var(--bright-teal); border-radius: 8px;">
+        </div>
+    </div>
     
-    {% if intake.entry_count > 0 %}
-    <div class="meal-breakdown">
-        <h4>Breakdown by Meal:</h4>
-        {% for meal, calories in intake.meal_breakdown.items() %}
-            {% if calories > 0 %}
-            <p><strong>{{ meal.title() }}:</strong> {{ calories }} calories</p>
-            {% endif %}
-        {% endfor %}
+    {% if intake and intake.entries %}
+    <div class="card-split" style="margin-bottom: 2rem;">
+        <div class="card-left">
+            <h3>Today's Meals</h3>
+            
+            {% for entry in intake.entries %}
+            <div class="food-entry">
+                <div>
+                    <strong>{{ entry.food_item.name }}</strong>
+                    <div style="font-size: 0.9rem; color: var(--text-secondary);">
+                        {{ entry.food_item.quantity_grams }}g
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <span class="meal-type">{{ entry.meal_type.value.title() }}</span>
+                    <div style="font-weight: 600; margin-top: 0.25rem;">
+                        {{ "%.0f"|format(entry.calculate_calories()) }} cal
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="card-right">
+            <h3>Daily Summary</h3>
+            <div style="text-align: center; margin-top: 2rem;">
+                <div class="result-label">Total Calories</div>
+                <div class="result-value">{{ "%.0f"|format(intake.total_calories) }}</div>
+                <div style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 2rem;">consumed today</div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <div class="result-label">Meals Logged</div>
+                    <div style="font-size: 2rem; color: var(--bright-teal); font-weight: 600;">
+                        {{ intake.entries|length }}
+                    </div>
+                </div>
+                
+                <a href="{{ url_for('main.add_food') }}" class="btn btn-reset">Add More Food</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
+        <div style="font-size: 4rem; margin-bottom: 1rem;">🍽️</div>
+        <h3>No meals logged for {{ selected_date }}</h3>
+        <p>Start tracking your food intake to see your daily summary</p>
+        <a href="{{ url_for('main.add_food') }}" class="btn btn-primary" style="margin-top: 1rem;">Add Your First Meal</a>
     </div>
     {% endif %}
 </div>
-
-{% if intake.entry_count == 0 %}
-<div class="results">
-    <p>No food entries for this date. <a href="/add_food">Add your first meal!</a></p>
-</div>
-{% endif %}
-
-<div style="margin-top: 20px;">
-    <a href="/add_food"><button>Add Food Entry</button></a>
-    <a href="/" style="margin-left: 10px;"><button>Back to Home</button></a>
-</div>
-
-<script>
-function changeDate() {
-    const selectedDate = document.getElementById('date-picker').value;
-    window.location.href = `/food?date=${selectedDate}`;
-}
-</script>
 {% endblock %}

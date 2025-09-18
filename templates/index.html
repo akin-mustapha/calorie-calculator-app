@@ -1,68 +1,43 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="hero">
-    <h1>🍎 Calorie Calculator</h1>
-    <p>Track your daily calorie needs and food intake with our comprehensive nutrition management system</p>
-</div>
-
-<div class="feature-grid">
-    <a href="/calculate" class="feature-card">
-        <div class="feature-icon">🧮</div>
-        <div class="feature-title">Calculate Calories</div>
-        <div class="feature-description">
-            Get personalized BMR and TDEE calculations based on your age, gender, weight, height, and activity level. 
-            Includes weight management recommendations.
-        </div>
-    </a>
+<div class="card">
+    <h1>CALORIE CALCULATOR</h1>
+    <p style="text-align: center; color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 3rem;">
+        Track your daily calorie intake and calculate your nutritional needs
+    </p>
     
-    <a href="/food" class="feature-card">
-        <div class="feature-icon">📊</div>
-        <div class="feature-title">Food Tracker</div>
-        <div class="feature-description">
-            View your daily calorie intake with detailed breakdowns by meal type. 
-            Track your progress across different dates with our calendar feature.
-        </div>
-    </a>
-    
-    <a href="/add_food" class="feature-card">
-        <div class="feature-icon">🍽️</div>
-        <div class="feature-title">Add Food Intake</div>
-        <div class="feature-description">
-            Log your meals with our extensive food database of 75+ items. 
-            Search foods instantly or add custom entries with precise timestamps.
-        </div>
-    </a>
-    
-    <a href="/add_food" class="feature-card">
-        <div class="feature-icon">🔍</div>
-        <div class="feature-title">Food Database</div>
-        <div class="feature-description">
-            Access our comprehensive database with accurate calorie information for fruits, vegetables, 
-            proteins, grains, and more. Real-time search with autocomplete.
-        </div>
-    </a>
-</div>
-
-<div class="results">
-    <h3>✨ Key Features:</h3>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
-        <div>
-            <strong>🎯 Accurate Calculations</strong><br>
-            <small>Uses Mifflin-St Jeor equation for precise BMR calculations</small>
-        </div>
-        <div>
-            <strong>📅 Date & Time Control</strong><br>
-            <small>Log meals with custom timestamps or use current date/time</small>
-        </div>
-        <div>
-            <strong>🥗 Meal Categorization</strong><br>
-            <small>Organize intake by breakfast, lunch, dinner, and snacks</small>
-        </div>
-        <div>
-            <strong>💾 Persistent Storage</strong><br>
-            <small>All your data is saved and accessible across sessions</small>
-        </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+        <a href="{{ url_for('main.calculate_calories') }}" class="card" style="text-decoration: none; color: inherit; transition: transform 0.3s ease;">
+            <div style="text-align: center;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+                <h3>Calculate Calories</h3>
+                <p style="color: var(--text-secondary);">Calculate your BMR and daily calorie needs based on your profile</p>
+            </div>
+        </a>
+        
+        <a href="{{ url_for('main.food_tracker_page') }}" class="card" style="text-decoration: none; color: inherit; transition: transform 0.3s ease;">
+            <div style="text-align: center;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📋</div>
+                <h3>Food Tracker</h3>
+                <p style="color: var(--text-secondary);">View your daily food intake and calorie consumption</p>
+            </div>
+        </a>
+        
+        <a href="{{ url_for('main.add_food') }}" class="card" style="text-decoration: none; color: inherit; transition: transform 0.3s ease;">
+            <div style="text-align: center;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">➕</div>
+                <h3>Add Food</h3>
+                <p style="color: var(--text-secondary);">Log your meals and track your calorie intake</p>
+            </div>
+        </a>
     </div>
 </div>
+
+<style>
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+</style>
 {% endblock %}

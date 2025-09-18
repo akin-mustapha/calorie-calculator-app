@@ -1,51 +1,76 @@
 {% extends "base.html" %}
 
-{% block title %}Calculate Calories - Calorie Calculator{% endblock %}
-
 {% block content %}
-<h1>Calculate Daily Calorie Requirements</h1>
-
-{% if error %}
-<div class="error">Error: {{ error }}</div>
-{% endif %}
-
-<form method="POST">
-    <div class="form-group">
-        <label for="age">Age (years):</label>
-        <input type="number" id="age" name="age" min="1" max="120" required>
+<div class="card card-split">
+    <div class="card-left">
+        <h2>Calculate Your Calories</h2>
+        
+        {% if error %}
+        <div style="background: #ff6b6b; color: white; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+            {{ error }}
+        </div>
+        {% endif %}
+        
+        <form method="POST">
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" id="age" name="age" required min="1" max="120">
+            </div>
+            
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="weight">Weight (kg)</label>
+                <input type="number" id="weight" name="weight" required min="1" step="0.1">
+            </div>
+            
+            <div class="form-group">
+                <label for="height">Height (cm)</label>
+                <input type="number" id="height" name="height" required min="1" step="0.1">
+            </div>
+            
+            <div class="form-group">
+                <label for="activity_level">Activity Level</label>
+                <select id="activity_level" name="activity_level" required>
+                    <option value="">Select Activity Level</option>
+                    <option value="1.2">Sedentary (little/no exercise)</option>
+                    <option value="1.375">Light (light exercise 1-3 days/week)</option>
+                    <option value="1.55">Moderate (moderate exercise 3-5 days/week)</option>
+                    <option value="1.725">Active (hard exercise 6-7 days/week)</option>
+                    <option value="1.9">Very Active (very hard exercise, physical job)</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Calculate</button>
+        </form>
     </div>
     
-    <div class="form-group">
-        <label for="gender">Gender:</label>
-        <select id="gender" name="gender" required>
-            <option value="">Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-        </select>
+    <div class="card-right">
+        <h3>Your Results</h3>
+        <div style="text-align: center; margin-top: 2rem;">
+            <div style="opacity: 0.7; margin-bottom: 2rem;">
+                Fill out the form to see your personalized calorie calculations
+            </div>
+            
+            <div style="border: 2px dashed rgba(255,255,255,0.3); border-radius: 12px; padding: 2rem; margin: 1rem 0;">
+                <div class="result-label">BMR</div>
+                <div class="result-value">---</div>
+            </div>
+            
+            <div style="border: 2px dashed rgba(255,255,255,0.3); border-radius: 12px; padding: 2rem; margin: 1rem 0;">
+                <div class="result-label">TDEE</div>
+                <div class="result-value">---</div>
+            </div>
+            
+            <button class="btn btn-reset" disabled>Calculate First</button>
+        </div>
     </div>
-    
-    <div class="form-group">
-        <label for="weight">Weight (kg):</label>
-        <input type="number" id="weight" name="weight" min="1" max="500" step="0.1" required>
-    </div>
-    
-    <div class="form-group">
-        <label for="height">Height (cm):</label>
-        <input type="number" id="height" name="height" min="1" max="300" step="0.1" required>
-    </div>
-    
-    <div class="form-group">
-        <label for="activity_level">Activity Level:</label>
-        <select id="activity_level" name="activity_level" required>
-            <option value="">Select Activity Level</option>
-            <option value="1.2">Sedentary (little/no exercise)</option>
-            <option value="1.375">Lightly active (light exercise 1-3 days/week)</option>
-            <option value="1.55">Moderately active (moderate exercise 3-5 days/week)</option>
-            <option value="1.725">Very active (hard exercise 6-7 days/week)</option>
-            <option value="1.9">Extremely active (very hard exercise, physical job)</option>
-        </select>
-    </div>
-    
-    <button type="submit">Calculate Calories</button>
-</form>
+</div>
 {% endblock %}
