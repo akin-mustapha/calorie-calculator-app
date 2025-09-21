@@ -58,22 +58,22 @@ const FoodTracker = () => {
   return (
     <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
       {/* Header */}
-      <div className="card" style={{ textAlign: 'center' }}>
+      {/* <div className="card" style={{ textAlign: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
           <Target style={{ width: '1.5rem', height: '1.5rem', color: 'var(--blue-primary)' }} />
-          <h1 className="gradient-text-primary">Food Tracker</h1>
+          <h2 className="gradient-text-primary">Food Tracker</h2>
         </div>
         <p style={{ color: 'var(--text-secondary)' }}>
           Track your daily food intake and monitor your nutritional goals
         </p>
-      </div>
+      </div> */}
 
       {/* Date Selector */}
       <div className="card">
-        <h2 style={{ color: 'var(--text-primary)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <h3 style={{ color: 'var(--text-primary)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Calendar style={{ width: '1.25rem', height: '1.25rem', color: 'var(--blue-primary)' }} />
           Select Date
-        </h2>
+        </h3>
         <input
           type="date"
           value={selectedDate}
@@ -115,7 +115,7 @@ const FoodTracker = () => {
       {/* Food Entries */}
       <div className="card">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-          <h2 style={{ color: 'var(--text-primary)' }}>Today's Food</h2>
+          <h3 style={{ color: 'var(--text-primary)' }}>Today's Food</h3>
           <Link to="/add-food" className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Plus style={{ width: '1rem', height: '1rem' }} />
             Add Food

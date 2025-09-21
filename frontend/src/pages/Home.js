@@ -36,12 +36,12 @@ const Home = () => {
   return (
     <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
       {/* Hero Section */}
-      <div className="card" style={{ textAlign: 'center', marginBottom: '2rem' }}>
+      {/* <div className="card" style={{ textAlign: 'center', marginBottom: '2rem' }}>
         <h1 className="gradient-text-primary">CALORIE CALCULATOR</h1>
         <p style={{ fontSize: '1.25rem', color: 'var(--text-secondary)', lineHeight: '1.6' }}>
           Track your daily calorie intake and calculate your nutritional needs with our comprehensive food database
         </p>
-      </div>
+      </div> */}
 
       {/* Feature Cards */}
       <div className="feature-grid">

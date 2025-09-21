@@ -10,14 +10,16 @@ import './styles/main.css';
 function App() {
   return (
     <Router>
-      <div className="container">
+      <div className="app-layout">
         <Navigation />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/calculate" element={<Calculate />} />
-          <Route path="/tracker" element={<FoodTracker />} />
-          <Route path="/add-food" element={<AddFood />} />
-        </Routes>
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/calculate" element={<Calculate />} />
+            <Route path="/tracker" element={<FoodTracker />} />
+            <Route path="/add-food" element={<AddFood />} />
+          </Routes>
+        </main>
       </div>
     </Router>
   );

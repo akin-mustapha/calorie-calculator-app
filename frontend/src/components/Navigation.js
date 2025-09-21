@@ -13,8 +13,11 @@ const Navigation = () => {
   ];
 
   return (
-    <div className="nav">
-      <nav className="nav-content">
+    <aside className="sidebar">
+      <div className="sidebar-header">
+        <h2 className="sidebar-title">Calorie Tracker</h2>
+      </div>
+      <nav className="sidebar-nav">
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
           const Icon = item.icon;
@@ -23,17 +26,15 @@ const Navigation = () => {
             <Link
               key={item.path}
               to={item.path}
-              className={`nav-button ${isActive ? 'active' : ''}`}
+              className={`sidebar-link ${isActive ? 'active' : ''}`}
             >
-              <Icon style={{ width: '20px', height: '20px', flexShrink: 0 }} />
-              <span style={{ display: window.innerWidth >= 640 ? 'inline' : 'none' }}>
-                {item.label}
-              </span>
+              <Icon className="sidebar-icon" />
+              <span className="sidebar-label">{item.label}</span>
             </Link>
           );
         })}
       </nav>
-    </div>
+    </aside>
   );
 };
 
