@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
-import { 
-  Card, CardContent, Typography, TextField, MenuItem, 
-  Button, Grid, Box, Alert, CircularProgress 
-} from '@mui/material';
-import { CalculateOutlined, TrendingUpOutlined } from '@mui/icons-material';
+import { Calculator, BarChart } from 'lucide-react';
 import { calorieAPI } from '../services/api';
-import { formFieldStyles, buttonStyles } from '../styles/formStyles';
 
 const Calculate = () => {
   const [formData, setFormData] = useState({
@@ -42,216 +37,178 @@ const Calculate = () => {
   };
 
   return (
-    <Card sx={{ 
-      backgroundColor: 'var(--card-bg)',
-      borderRadius: 'var(--border-radius)',
-      boxShadow: 'var(--shadow)',
-      overflow: 'hidden'
-    }}>
-      <Grid container>
-        {/* Form Section */}
-        <Grid item xs={12} md={6}>
-          <CardContent sx={{ p: 4 }}>
-            <Typography variant="h4" component="h2" sx={{ mb: 4, color: 'var(--dark-teal)', fontWeight: 600 }}>
-              Calculate Your Calories
-            </Typography>
-            
-            {error && (
-              <Alert severity="error" sx={{ mb: 3, borderRadius: '12px' }}>
-                {error}
-              </Alert>
-            )}
-            
-            <Box component="form" onSubmit={handleSubmit}>
-              <TextField
-                fullWidth
-                label="Age"
-                name="age"
+    <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+      <div className="card-split">
+        <div className="card-left">
+          <div style={{ marginBottom: '1.5rem' }}>
+            <h2 className="gradient-text-primary">Calculate Your Calories</h2>
+            <p style={{ color: 'var(--text-secondary)' }}>
+              Enter your information to calculate your daily calorie needs
+            </p>
+          </div>
+          
+          {error && (
+            <div className="error">
+              {error}
+            </div>
+          )}
+          
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Age (years)</label>
+              <input
                 type="number"
+                name="age"
+                placeholder="25"
                 value={formData.age}
                 onChange={handleChange}
                 required
-                inputProps={{ min: 1, max: 120 }}
-                sx={formFieldStyles}
               />
-              
-              <TextField
-                fullWidth
-                select
-                label="Gender"
-                name="gender"
-                value={formData.gender}
-                onChange={handleChange}
-                required
-                sx={formFieldStyles}
-              >
-                <MenuItem value="">Select Gender</MenuItem>
-                <MenuItem value="male">Male</MenuItem>
-                <MenuItem value="female">Female</MenuItem>
-              </TextField>
-              
-              <TextField
-                fullWidth
-                label="Weight (kg)"
-                name="weight"
+            </div>
+
+            <div className="form-group">
+              <label>Gender</label>
+              <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <input type="radio" id="male" name="gender" value="male" onChange={handleChange} />
+                  <label htmlFor="male" style={{ marginBottom: 0, cursor: 'pointer' }}>Male</label>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <input type="radio" id="female" name="gender" value="female" onChange={handleChange} />
+                  <label htmlFor="female" style={{ marginBottom: 0, cursor: 'pointer' }}>Female</label>
+                </div>
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label>Weight (kg)</label>
+              <input
                 type="number"
+                name="weight"
+                placeholder="70"
                 value={formData.weight}
                 onChange={handleChange}
                 required
-                inputProps={{ min: 1, step: 0.1 }}
-                sx={formFieldStyles}
               />
-              
-              <TextField
-                fullWidth
-                label="Height (cm)"
-                name="height"
+            </div>
+
+            <div className="form-group">
+              <label>Height (cm)</label>
+              <input
                 type="number"
+                name="height"
+                placeholder="175"
                 value={formData.height}
                 onChange={handleChange}
                 required
-                inputProps={{ min: 1, step: 0.1 }}
-                sx={formFieldStyles}
               />
-              
-              <TextField
-                fullWidth
-                select
-                label="Activity Level"
+            </div>
+
+            <div className="form-group">
+              <label>Activity Level</label>
+              <select
                 name="activity_level"
                 value={formData.activity_level}
                 onChange={handleChange}
                 required
-                sx={formFieldStyles}
               >
-                <MenuItem value="">Select Activity Level</MenuItem>
-                <MenuItem value="1.2">Sedentary (little/no exercise)</MenuItem>
-                <MenuItem value="1.375">Light (light exercise 1-3 days/week)</MenuItem>
-                <MenuItem value="1.55">Moderate (moderate exercise 3-5 days/week)</MenuItem>
-                <MenuItem value="1.725">Active (hard exercise 6-7 days/week)</MenuItem>
-                <MenuItem value="1.9">Very Active (very hard exercise, physical job)</MenuItem>
-              </TextField>
-              
-              <Button
-                type="submit"
-                variant="contained"
-                fullWidth
-                size="large"
-                disabled={loading}
-                startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <CalculateOutlined />}
-                sx={{ ...buttonStyles.primary, mt: 2 }}
+                <option value="">Select Activity Level</option>
+                <option value="1.2">Sedentary (little/no exercise)</option>
+                <option value="1.375">Light (light exercise 1-3 days/week)</option>
+                <option value="1.55">Moderate (moderate exercise 3-5 days/week)</option>
+                <option value="1.725">Active (hard exercise 6-7 days/week)</option>
+                <option value="1.9">Very Active (very hard exercise, physical job)</option>
+              </select>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn-modern"
+              style={{ background: 'var(--gradient-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+            >
+              {loading ? (
+                <>
+                  <div className="loading-spinner" style={{ width: '1.25rem', height: '1.25rem' }}></div>
+                  Calculating...
+                </>
+              ) : (
+                <>
+                  <Calculator size={20} />
+                  Calculate My Calories
+                </>
+              )}
+            </button>
+          </form>
+        </div>
+
+        <div className="card-right">
+          <div style={{ marginBottom: '1.5rem' }}>
+            <h2 style={{ color: 'white' }}>Your Results</h2>
+            <p style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
+              Your calculated daily calorie needs
+            </p>
+          </div>
+          
+          {results ? (
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ marginBottom: '2rem' }}>
+                <div style={{ fontSize: '0.875rem', opacity: 0.8, marginBottom: '0.5rem' }}>
+                  Basal Metabolic Rate (BMR)
+                </div>
+                <div className="result-value">
+                  {Math.round(results.bmr)}
+                </div>
+                <div style={{ fontSize: '0.875rem', opacity: 0.8 }}>calories/day</div>
+                <div style={{ fontSize: '0.75rem', opacity: 0.7, marginTop: '0.5rem' }}>
+                  Calories burned at rest
+                </div>
+              </div>
+
+              <div style={{ marginBottom: '2rem' }}>
+                <div style={{ fontSize: '0.875rem', opacity: 0.8, marginBottom: '0.5rem' }}>
+                  Total Daily Energy Expenditure (TDEE)
+                </div>
+                <div className="result-value">
+                  {Math.round(results.tdee)}
+                </div>
+                <div style={{ fontSize: '0.875rem', opacity: 0.8 }}>calories/day</div>
+                <div style={{ fontSize: '0.75rem', opacity: 0.7, marginTop: '0.5rem' }}>
+                  Total calories needed to maintain weight
+                </div>
+              </div>
+
+              <button 
+                className="btn-modern"
+                style={{ 
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  color: 'var(--blue-primary)',
+                  marginBottom: '1.5rem'
+                }}
               >
-                {loading ? 'Calculating...' : 'Calculate Calories'}
-              </Button>
-            </Box>
-          </CardContent>
-        </Grid>
-        
-        {/* Results Section */}
-        <Grid item xs={12} md={6}>
-          <Box sx={{ 
-            backgroundColor: 'var(--dark-teal)', 
-            color: 'white', 
-            p: 4, 
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center'
-          }}>
-            <Typography variant="h4" component="h3" sx={{ mb: 4, textAlign: 'center', fontWeight: 600 }}>
-              Your Results
-            </Typography>
-            
-            {results ? (
-              <Box sx={{ textAlign: 'center' }}>
-                <Box sx={{ mb: 4 }}>
-                  <Typography variant="body2" sx={{ opacity: 0.8, mb: 1, fontSize: '1rem' }}>
-                    BMR (Basal Metabolic Rate)
-                  </Typography>
-                  <Typography variant="h2" sx={{ color: 'var(--bright-teal)', fontWeight: 700, mb: 1 }}>
-                    {Math.round(results.bmr)}
-                  </Typography>
-                  <Typography variant="body2" sx={{ opacity: 0.8, fontSize: '0.9rem' }}>
-                    calories/day at rest
-                  </Typography>
-                </Box>
-                
-                <Box sx={{ mb: 4 }}>
-                  <Typography variant="body2" sx={{ opacity: 0.8, mb: 1, fontSize: '1rem' }}>
-                    TDEE (Total Daily Energy)
-                  </Typography>
-                  <Typography variant="h2" sx={{ color: 'var(--bright-teal)', fontWeight: 700, mb: 1 }}>
-                    {Math.round(results.tdee)}
-                  </Typography>
-                  <Typography variant="body2" sx={{ opacity: 0.8, fontSize: '0.9rem' }}>
-                    calories/day with activity
-                  </Typography>
-                </Box>
-                
-                <Button
-                  variant="contained"
-                  fullWidth
-                  size="large"
-                  startIcon={<TrendingUpOutlined />}
-                  sx={{
-                    backgroundColor: 'var(--bright-teal)',
-                    borderRadius: '12px',
-                    padding: '12px 24px',
-                    fontSize: '1rem',
-                    fontWeight: 600,
-                    textTransform: 'none',
-                    '&:hover': { backgroundColor: '#45B7B8' }
-                  }}
-                >
-                  Start Tracking Food
-                </Button>
-              </Box>
-            ) : (
-              <Box sx={{ textAlign: 'center', opacity: 0.7 }}>
-                <Typography variant="h6" sx={{ mb: 4 }}>
-                  Fill out the form to see your personalized calorie calculations
-                </Typography>
-                
-                <Box sx={{ 
-                  border: '2px dashed rgba(255,255,255,0.3)', 
-                  borderRadius: '12px', 
-                  p: 3, 
-                  mb: 2 
-                }}>
-                  <Typography variant="body2" sx={{ mb: 1, fontSize: '1rem' }}>BMR</Typography>
-                  <Typography variant="h2" sx={{ color: 'var(--bright-teal)' }}>---</Typography>
-                </Box>
-                
-                <Box sx={{ 
-                  border: '2px dashed rgba(255,255,255,0.3)', 
-                  borderRadius: '12px', 
-                  p: 3, 
-                  mb: 3 
-                }}>
-                  <Typography variant="body2" sx={{ mb: 1, fontSize: '1rem' }}>TDEE</Typography>
-                  <Typography variant="h2" sx={{ color: 'var(--bright-teal)' }}>---</Typography>
-                </Box>
-                
-                <Button
-                  variant="contained"
-                  fullWidth
-                  size="large"
-                  disabled
-                  sx={{ 
-                    opacity: 0.5,
-                    borderRadius: '12px',
-                    padding: '12px 24px',
-                    fontSize: '1rem'
-                  }}
-                >
-                  Calculate First
-                </Button>
-              </Box>
-            )}
-          </Box>
-        </Grid>
-      </Grid>
-    </Card>
+                Start Tracking Food
+              </button>
+
+              <div style={{ fontSize: '0.75rem', opacity: 0.7, lineHeight: '1.5' }}>
+                <div>• To lose weight: eat 300-500 calories below TDEE</div>
+                <div>• To gain weight: eat 300-500 calories above TDEE</div>
+                <div>• To maintain weight: eat close to your TDEE</div>
+              </div>
+            </div>
+          ) : (
+            <div style={{ textAlign: 'center', padding: '2rem 0' }}>
+              <BarChart style={{ width: '3rem', height: '3rem', opacity: 0.2, margin: '0 auto 1rem auto', color: 'white' }} />
+              <div style={{ fontSize: '1.125rem', opacity: 0.8, marginBottom: '0.5rem' }}>
+                Fill out the form to see your results
+              </div>
+              <div style={{ fontSize: '0.875rem', opacity: 0.6, lineHeight: '1.5' }}>
+                We'll calculate your BMR and TDEE based on the Mifflin-St Jeor equation
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
   );
 };
 

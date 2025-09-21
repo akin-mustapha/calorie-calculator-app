@@ -34,3 +34,7 @@ class FoodEntry:
     @property
     def calories(self) -> float:
         return self.food_item.total_calories
+    
+    def calculate_calories(self) -> float:
+        """Calculate total calories for this food entry"""
+        return self.food_item.total_calories

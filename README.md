@@ -4,11 +4,8 @@ A modern web application with React frontend and Flask API backend for calculati
 
 ## 🚀 Quick Start
 
-### Production (Docker)
 ```bash
 ./start-dev.sh
-# or
-docker-compose up --build
 ```
 
 **Access:**
@@ -16,21 +13,12 @@ docker-compose up --build
 - **API**: http://localhost:8000 (Flask API)
 - **Database**: localhost:5432 (PostgreSQL)
 
-### Development Mode
-```bash
-# Terminal 1 - Backend API
-python run.py
-
-# Terminal 2 - Frontend React App  
-cd frontend && npm install && npm start
-```
-
 ## 🏗️ Architecture
 
 ### Frontend (React)
-- **Framework**: React 18 with hooks
+- **Framework**: React 18 with Material-UI
 - **Routing**: React Router v6
-- **Styling**: CSS with design system variables
+- **Styling**: Material-UI with custom teal theme
 - **API Client**: Axios for HTTP requests
 - **Port**: 3000
 
@@ -47,7 +35,7 @@ cd frontend && npm install && npm start
 
 ## 🎨 Features
 
-- **Modern Design**: Clean teal theme matching design template
+- **Modern Design**: Clean Material-UI components with teal theme
 - **Responsive Layout**: Works on desktop and mobile
 - **Real-time Search**: Food database autocomplete
 - **Split-card UI**: Form and results side-by-side
@@ -72,21 +60,23 @@ cd frontend && npm install && npm start
 │   │   ├── services/   # API client
 │   │   └── styles/     # CSS files
 │   └── public/         # Static assets
-├── app/               # Flask application
+├── app/               # Flask API application
 │   ├── models/        # Data models
 │   ├── services/      # Business logic
 │   ├── database/      # Data access
 │   └── views/         # API routes
 ├── config/            # Configuration
-└── templates/         # Flask templates (legacy)
+├── docs/              # Documentation
+├── tests/             # Test suite
+└── docker-compose.yml # Container orchestration
 ```
 
 ### Key Technologies
 - **React 18** - Modern frontend framework
+- **Material-UI** - Professional UI components
 - **Flask** - Python web framework
 - **PostgreSQL** - Relational database
 - **Docker** - Containerization
-- **Nginx** - Production web server
 
 ## 🔧 Commands
 
@@ -107,10 +97,8 @@ docker-compose up --build
 ./start-dev.sh
 ```
 
-## 🎯 Next Steps
+## 📚 Documentation
 
-- Add user authentication
-- Implement data visualization
-- Add meal planning features
-- Mobile app development
-- Advanced nutrition tracking
+- [Requirements](docs/requirements.md) - Functional requirements
+- [Design](docs/design.md) - Architecture and design patterns
+- [API Documentation](docs/README.md) - API reference
